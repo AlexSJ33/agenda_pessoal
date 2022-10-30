@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,redirect
 from django.http import Http404
+from django.contrib import messages
 
 from .models import Contato
 from django.core.paginator import Paginator
@@ -8,6 +9,7 @@ from django.db.models.functions import Concat
 
 # Create your views here.
 def index(request):
+    
     contatos = Contato.objects.order_by('-id').filter(
         mostrar=True
     )
@@ -33,8 +35,12 @@ def ver_contato(request, contato_id):
 
 def busca(request):
     termo = request.GET.get('termo')
-    if termo is None:
-        raise Http404()
+
+    if termo is None or not termo:
+        messages.add_message(request,messages.INFO,'Campo para pesquisa não pode estar vazio!')
+        
+        return redirect('index')
+
     campos = Concat('nome', Value(' '),'sobrenome')
 
     contatos = Contato.objects.annotate(

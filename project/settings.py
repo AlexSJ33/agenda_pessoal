@@ -130,3 +130,16 @@ MEDIA_URL = 'media/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Esquema de mensagens
+from django.contrib.messages import constants
+
+MESSAGE_TAGS = {
+    constants.INFO:'alert-info',
+    constants.SUCCESS: 'alert-success',
+    constants.ERROR: 'alert-danger',
+    constants.WARNING: 'alert-warning',
+    
+    
+}
